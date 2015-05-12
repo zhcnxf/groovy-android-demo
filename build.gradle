@@ -1,0 +1,50 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.1.+'
+        classpath 'org.codehaus.groovy:gradle-groovy-android-plugin:0.3.6'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'groovyx.grooid.groovy-android'
+
+file('gradle.d').list().each {
+    it ==~ /.+\.gradle/ && apply(from: "gradle.d/$it")
+}
+
+android {
+    compileSdkVersion 'android-22'
+    buildToolsVersion '22.0.1'
+
+    defaultConfig {
+        applicationId "org.taosha.android.apps.kvass"
+        minSdkVersion 21
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'org.codehaus.groovy:groovy:2.4.3:grooid'
+}
